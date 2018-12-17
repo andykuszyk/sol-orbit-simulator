@@ -1,0 +1,97 @@
+<html>
+    <head>
+        <title>Sol Orbit Simulator</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <style>
+            .sol-system: {
+                background-color: black;
+            }
+            .planet: {
+                position: absolute;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="app" class="container">
+            <div class="row">Sol Orbit Simulator</div>
+            <div class="row">
+                <div class="col-sm">
+                    Menu
+                </div>
+                <div class="col-lg" v-bind:width="zoom * 35">
+                    <div class="sol-system">
+                        <div v-for="planet in planets"
+                             class="planet"
+                             v-bind:style="{
+                                left: planet.coords.x * zoom,
+                                top: planet.coords.y * zoom,
+                            }"
+                            >
+                            <img v-bind:src="'images/' + planet.icon"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            var app = new Vue({
+                el: '#app',
+                data: {
+                    zoom: 10,
+                    planets: [
+                        {
+                            'name': 'Sun',
+                            'icon': 'sun.png',
+                            'coords': {'x': 0, 'y': 0},
+                        },
+                        {
+                            'name': 'Mercury',
+                            'icon': 'mercury.png',
+                            'coords': {'x': 0.4,  'y': 0},
+                        },
+                        {
+                            'name': 'Venus',
+                            'icon': 'venus.png',
+                            'coords': {'x': 0.7,  'y': 0},
+                        },
+                        {
+                            'name': 'Earth',
+                            'icon': 'earth.png',
+                            'coords': {'x': 1,  'y': 0},
+                        },
+                        {
+                            'name': 'Mars',
+                            'icon': 'mars.png',
+                            'coords': {'x': 1.5,  'y': 0},
+                        },
+                        {
+                            'name': 'Jupiter',
+                            'icon': 'jupiter.png',
+                            'coords': {'x': 5.2,  'y': 0},
+                        },
+                        {
+                            'name': 'Saturn',
+                            'icon': 'saturn.png',
+                            'coords': {'x': 9.5,  'y': 0},
+                        },
+                        {
+                            'name': 'Uranus',
+                            'icon': 'uranus.png',
+                            'coords': {'x': 19.2,  'y': 0},
+                        },
+                        {
+                            'name': 'Neptune',
+                            'icon': 'neptune.png',
+                            'coords': {'x': 30.1,  'y': 0},
+                        },
+                    ]
+                },
+                methods: {
+                }
+            });
+        </script>
+    </body>
+</html>
