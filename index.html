@@ -15,22 +15,27 @@
 
     <body>
         <div id="app" class="container">
-            <div class="row">Sol Orbit Simulator</div>
+            <div class="row">
+                <div class="col" style="text-align:center">Sol Orbit Simulator</div>
+            </div>
             <div class="row">
                 <div class="col-sm">
-                    Menu
+                    <ul>
+                        <li>Control 1</li>
+                        <li>Control 2</li>
+                        <li>Control 3</li>
+                    </ul>
                 </div>
-                <div class="col-lg" v-bind:width="zoom * 35">
-                    <div class="sol-system">
-                        <div v-for="planet in planets"
-                             class="planet"
-                             v-bind:style="{
-                                left: planet.coords.x * zoom,
-                                top: planet.coords.y * zoom,
-                            }"
-                            >
-                            <img v-bind:src="'images/' + planet.icon"/>
-                        </div>
+                <div class="col sol-system" 
+                     v-bind:style="{width: zoom * 35 + 'px', height: zoom * 35 + 'px'}">
+                    <div v-for="planet in planets"
+                         class="planet"
+                         v-bind:style="{
+                            left: planet.coords.x * zoom + 'px',
+                            top: planet.coords.y * zoom + 'px',
+                        }"
+                        >
+                        <img v-bind:src="'images/' + planet.icon"/>
                     </div>
                 </div>
             </div>
