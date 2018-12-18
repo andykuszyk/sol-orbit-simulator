@@ -35,9 +35,28 @@
                 data: {
                     zoom: 100,
                     maxRadius: 32,
+                    speed: 1,
                     methods: {
                         update: function() {
                             console.log('hello world');
+                            // need earth days per second
+                            // need period of planet in earth days
+                            // change in angle per tick is...
+
+                            /*
+                            r = distance from sun
+                            p = earth days per second (set by user)
+                            T = orbital period in years * 365 / p
+                            w = 2 pi r / T
+                            x = r * sin w
+                            y = r * (1 - cos w)
+                            */
+                            for(let planet of this.planets) {
+                                T = planet.period * 365 / speed;
+                                w = 2 * Math.PI / T;
+                                planet.coords.x = planet.radius * Math.sin(w);
+                                planet.coords.y = planet.radius * (1 - Math.cos(w));
+                            }
                         },
                     },
                     planets: [
