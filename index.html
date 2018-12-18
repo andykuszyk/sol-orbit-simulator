@@ -33,7 +33,13 @@
             var app = new Vue({
                 el: '#app',
                 data: {
-                    zoom: 10,
+                    zoom: 100,
+                    maxRadius: 32,
+                    methods: {
+                        update: function() {
+                            console.log('hello world');
+                        },
+                    },
                     planets: [
                         {
                             'name': 'Sun',
@@ -82,9 +88,9 @@
                         },
                     ]
                 },
-                methods: {
-                }
             });
+
+            setInterval(function() { app.methods.update(); }, 1000);
         </script>
     </body>
 </html>
