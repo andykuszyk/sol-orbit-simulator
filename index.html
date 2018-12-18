@@ -16,7 +16,7 @@
     <body>
         <div id="app">
             <div class="col sol-system" 
-                 v-bind:style="{width: zoom * maxRadius + 'px', height: zoom * maxRadius + 'px'}">
+                 v-bind:style="{width: zoom * maxRadius * 2 + 'px', height: zoom * maxRadius * 2 + 'px'}">
                 <div v-for="planet in planets"
                      class="planet"
                      v-bind:style="{
@@ -33,16 +33,11 @@
             var app = new Vue({
                 el: '#app',
                 data: {
-                    zoom: 100,
+                    zoom: 10,
                     maxRadius: 32,
                     speed: 1,
                     methods: {
-                        update: function() {
-                            console.log('hello world');
-                            // need earth days per second
-                            // need period of planet in earth days
-                            // change in angle per tick is...
-
+                        update: function(a) {
                             /*
                             r = distance from sun
                             p = earth days per second (set by user)
@@ -51,11 +46,12 @@
                             x = r * sin w
                             y = r * (1 - cos w)
                             */
-                            for(let planet of this.planets) {
-                                T = planet.period * 365 / speed;
-                                w = 2 * Math.PI / T;
-                                planet.coords.x = planet.radius * Math.sin(w);
-                                planet.coords.y = planet.radius * (1 - Math.cos(w));
+                            for(let planet of a.planets) {
+                                T = planet.period * 365 / a.speed;
+                                w = (2 * Math.PI / T) + planet.coords.w;
+                                planet.coords.x = a.maxRadius + (planet.radius * Math.sin(w));
+                                planet.coords.y = a.maxRadius - planet.radius + (planet.radius * (1 - Math.cos(w)));
+                                planet.coords.w = w;
                             }
                         },
                     },
@@ -63,53 +59,71 @@
                         {
                             'name': 'Sun',
                             'icon': 'sun.png',
-                            'coords': {'x': 0, 'y': 0},
+                            'coords': {'x': 0, 'y': 0, 'w': 0},
+                            'radius': 0,
+                            'period': 1,
                         },
                         {
                             'name': 'Mercury',
                             'icon': 'mercury.png',
-                            'coords': {'x': 0.4,  'y': 0},
+                            'coords': {'x': 0, 'y': 0, 'w': 0},
+                            'radius': 0.4,
+                            'period': 1,
                         },
                         {
                             'name': 'Venus',
                             'icon': 'venus.png',
-                            'coords': {'x': 0.7,  'y': 0},
+                            'coords': {'x': 0, 'y': 0, 'w': 0},
+                            'radius': 0.7,
+                            'period': 1,
                         },
                         {
                             'name': 'Earth',
                             'icon': 'earth.png',
-                            'coords': {'x': 1,  'y': 0},
+                            'coords': {'x': 0, 'y': 0, 'w': 0},
+                            'radius': 1,
+                            'period': 1,
                         },
                         {
                             'name': 'Mars',
                             'icon': 'mars.png',
-                            'coords': {'x': 1.5,  'y': 0},
+                            'coords': {'x': 0, 'y': 0, 'w': 0},
+                            'radius': 1.5,
+                            'period': 1,
                         },
                         {
                             'name': 'Jupiter',
                             'icon': 'jupiter.png',
-                            'coords': {'x': 5.2,  'y': 0},
+                            'coords': {'x': 0, 'y': 0, 'w': 0},
+                            'radius': 5.2,
+                            'period': 1,
                         },
                         {
                             'name': 'Saturn',
                             'icon': 'saturn.png',
-                            'coords': {'x': 9.5,  'y': 0},
+                            'coords': {'x': 0, 'y': 0, 'w': 0},
+                            'radius': 9.5,
+                            'period': 1,
                         },
                         {
                             'name': 'Uranus',
                             'icon': 'uranus.png',
-                            'coords': {'x': 19.2,  'y': 0},
+                            'coords': {'x': 0, 'y': 0, 'w': 0},
+                            'radius': 19.2,
+                            'period': 1,
                         },
                         {
                             'name': 'Neptune',
                             'icon': 'neptune.png',
-                            'coords': {'x': 30.1,  'y': 0},
+                            'coords': {'x': 0, 'y': 0, 'w': 0},
+                            'radius': 30.1,
+                            'period': 1,
                         },
                     ]
                 },
             });
 
-            setInterval(function() { app.methods.update(); }, 1000);
+            setInterval(function() { app.methods.update(app); }, 50);
         </script>
     </body>
 </html>
