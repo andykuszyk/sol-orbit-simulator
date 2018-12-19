@@ -17,6 +17,19 @@
         <div id="app">
             <div class="col sol-system" 
                  v-bind:style="{width: zoom * maxRadius * 2 + 'px', height: zoom * maxRadius * 2 + 'px'}">
+                <svg class="planet" 
+                    v-bind:width="zoom * maxRadius * 2 + 'px'" 
+                    v-bind:height="zoom * maxRadius * 2 + 'px'">
+                    <circle 
+                        v-for="planet in planets" 
+                        v-bind:cx="maxRadius * zoom + 'px'" 
+                        v-bind:cy="maxRadius * zoom + 'px'" 
+                        v-bind:r="planet.radius * zoom + 'px'" 
+                        stroke="red" 
+                        stroke-width="1px"
+                        fill="none"
+                        />
+                </svg>
                 <div v-for="planet in planets"
                      class="planet"
                      v-bind:style="{
