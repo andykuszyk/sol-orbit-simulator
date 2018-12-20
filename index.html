@@ -15,8 +15,9 @@
 
     <body>
         <div id="app">
-            <div class="col sol-system" 
+            <div id="sol-system" class="col sol-system" 
                  v-bind:style="{width: zoom * maxRadius * 2 + 'px', height: zoom * maxRadius * 2 + 'px'}">
+                <button class="btn btn-primary
                 <svg class="planet" 
                     v-bind:width="zoom * maxRadius * 2 + 'px'" 
                     v-bind:height="zoom * maxRadius * 2 + 'px'">
@@ -81,14 +82,14 @@
                             'icon': 'mercury.png',
                             'coords': {'x': 0, 'y': 0, 'w': 0},
                             'radius': 0.4,
-                            'period': 1,
+                            'period': 0.240846,
                         },
                         {
                             'name': 'Venus',
                             'icon': 'venus.png',
                             'coords': {'x': 0, 'y': 0, 'w': 0},
                             'radius': 0.7,
-                            'period': 1,
+                            'period': 0.615198,
                         },
                         {
                             'name': 'Earth',
@@ -102,40 +103,39 @@
                             'icon': 'mars.png',
                             'coords': {'x': 0, 'y': 0, 'w': 0},
                             'radius': 1.5,
-                            'period': 1,
+                            'period': 1.88082,
                         },
                         {
                             'name': 'Jupiter',
                             'icon': 'jupiter.png',
                             'coords': {'x': 0, 'y': 0, 'w': 0},
                             'radius': 5.2,
-                            'period': 1,
+                            'period': 11.862,
                         },
                         {
                             'name': 'Saturn',
                             'icon': 'saturn.png',
                             'coords': {'x': 0, 'y': 0, 'w': 0},
                             'radius': 9.5,
-                            'period': 1,
+                            'period': 29.4571,
                         },
                         {
                             'name': 'Uranus',
                             'icon': 'uranus.png',
                             'coords': {'x': 0, 'y': 0, 'w': 0},
                             'radius': 19.2,
-                            'period': 1,
+                            'period': 84.0205,
                         },
                         {
                             'name': 'Neptune',
                             'icon': 'neptune.png',
                             'coords': {'x': 0, 'y': 0, 'w': 0},
                             'radius': 30.1,
-                            'period': 1,
+                            'period': 164.8,
                         },
                     ]
                 },
             });
-
             setInterval(function() { app.methods.update(app); }, 50);
         </script>
     </body>
