@@ -59,10 +59,10 @@
                 el: '#app',
                 methods: {
                     zoomIn: function() {
-                        this.zoom += 1;
+                        this.zoom += this.zoomIncrement;
                     },
                     zoomOut: function() {
-                        this.zoom -= 1;
+                        this.zoom -= this.zoomIncrement;
                         if(this.zoom < 1) {
                             this.zoom = 1;
                         }
@@ -81,6 +81,7 @@
                     },
                     update: function() {
                         /*
+                        Planetary Orbits:
                         r = distance from sun
                         p = earth days per second (set by user)
                         T = orbital period in years * 365 / p
@@ -89,8 +90,8 @@
                         y = r * (1 - cos w)
                         */
                         for(let planet of this.planets) {
-                            T = planet.period * 365 / this.speed;
-                            w = (2 * Math.PI / T) + planet.coords.w;
+                            let T = planet.period * 365 / this.speed;
+                            let w = (2 * Math.PI / T) + planet.coords.w;
                             planet.coords.x = 
                                 (window.innerWidth / 2) + 
                                 (planet.radius * Math.sin(w)) * this.zoom;
@@ -99,12 +100,31 @@
                                 (-planet.radius + (planet.radius * (1 - Math.cos(w)))) * this.zoom;
                             planet.coords.w = w;
                         }
+
+                        /*
+                        Spaceship orbit:
+
+                        */
+                        let sun = this.planets.filter(p => p.name == 'Sun')[0];
+                        let gravitationalForce = 
+                            (sun.mass * this.spaceship.mass * 6.67 * Math.pow(10, -11)) / 
+                            Math.pow(this.spaceship.radius, 2);
+                        // we've got thrust and force due to gravity. need to calculate coords.
+                        // this will affect radius.
+
                     },
                 },
                 data: {
                     zoom: 10,
+                    zoomIncrement: 5,
                     maxRadius: 32,
                     speed: 1, 
+                    ship: {
+                        'mass': 10000,
+                        'radius': 1,
+                        'period': 1,
+                        'thrust': 0,
+                    },
                     planets: [
                         {
                             'name': 'Sun',
@@ -112,6 +132,7 @@
                             'coords': {'x': 0, 'y': 0, 'w': 0},
                             'radius': 0,
                             'period': 1,
+                            'mass': 1.99885 * Math.pow(10, 30),
                         },
                         {
                             'name': 'Mercury',
