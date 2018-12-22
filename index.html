@@ -13,62 +13,66 @@
         </style>
     </head>
 
-    <body>
-        <div id="app">
-            <div id="sol-system" class="col sol-system" 
-                 v-bind:style="{width: zoom * maxRadius * 2 + 'px', height: zoom * maxRadius * 2 + 'px'}">
-                <button class="btn btn-primary
-                <svg class="planet" 
-                    v-bind:width="zoom * maxRadius * 2 + 'px'" 
-                    v-bind:height="zoom * maxRadius * 2 + 'px'">
-                    <circle 
-                        v-for="planet in planets" 
-                        v-bind:cx="maxRadius * zoom + 'px'" 
-                        v-bind:cy="maxRadius * zoom + 'px'" 
-                        v-bind:r="planet.radius * zoom + 'px'" 
-                        stroke="red" 
-                        stroke-width="1px"
-                        fill="none"
-                        />
-                </svg>
-                <div v-for="planet in planets"
-                     class="planet"
-                     v-bind:style="{
-                        left: planet.coords.x * zoom + 8 + 'px',
-                        top: planet.coords.y * zoom - 8 + 'px',
-                    }"
-                    >
-                    <img v-bind:src="'images/' + planet.icon"/>
-                </div>
+    <body class="sol-system">
+        <div id="app" style="width:100%; height:100%;">
+            <svg class="planet" style="width:100%; height:100%;"> 
+                <circle 
+                    v-for="planet in planets" 
+                    v-bind:cx="getOriginX() + 8 + 'px'" 
+                    v-bind:cy="getOriginY() + 8 + 'px'" 
+                    v-bind:r="planet.radius * zoom + 'px'" 
+                    stroke="red" 
+                    stroke-width="1px"
+                    fill="none"
+                    />
+            </svg>
+            <div v-for="planet in planets"
+                 class="planet"
+                 v-bind:style="{
+                    left: planet.coords.x + 'px',
+                    top: planet.coords.y + 'px',
+                }"
+                >
+                <img v-bind:src="'images/' + planet.icon"/>
             </div>
         </div>
 
         <script>
             var app = new Vue({
                 el: '#app',
+                methods: {
+                    getOriginX: function() {
+                        return window.innerWidth / 2;
+                    },
+                    getOriginY: function() {
+                        return window.innerHeight / 2;
+                    },
+                    update: function() {
+                        /*
+                        r = distance from sun
+                        p = earth days per second (set by user)
+                        T = orbital period in years * 365 / p
+                        w = 2 pi r / T
+                        x = r * sin w
+                        y = r * (1 - cos w)
+                        */
+                        for(let planet of this.planets) {
+                            T = planet.period * 365 / this.speed;
+                            w = (2 * Math.PI / T) + planet.coords.w;
+                            planet.coords.x = 
+                                (window.innerWidth / 2) + 
+                                (planet.radius * Math.sin(w)) * this.zoom;
+                            planet.coords.y = 
+                                (window.innerHeight / 2) +
+                                (-planet.radius + (planet.radius * (1 - Math.cos(w)))) * this.zoom;
+                            planet.coords.w = w;
+                        }
+                    },
+                },
                 data: {
                     zoom: 10,
                     maxRadius: 32,
-                    speed: 1,
-                    methods: {
-                        update: function(a) {
-                            /*
-                            r = distance from sun
-                            p = earth days per second (set by user)
-                            T = orbital period in years * 365 / p
-                            w = 2 pi r / T
-                            x = r * sin w
-                            y = r * (1 - cos w)
-                            */
-                            for(let planet of a.planets) {
-                                T = planet.period * 365 / a.speed;
-                                w = (2 * Math.PI / T) + planet.coords.w;
-                                planet.coords.x = a.maxRadius + (planet.radius * Math.sin(w));
-                                planet.coords.y = a.maxRadius - planet.radius + (planet.radius * (1 - Math.cos(w)));
-                                planet.coords.w = w;
-                            }
-                        },
-                    },
+                    speed: 1, 
                     planets: [
                         {
                             'name': 'Sun',
@@ -136,7 +140,7 @@
                     ]
                 },
             });
-            setInterval(function() { app.methods.update(app); }, 50);
+            setInterval(function() { app.update(); }, 50);
         </script>
     </body>
 </html>
