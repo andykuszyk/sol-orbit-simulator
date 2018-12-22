@@ -35,12 +35,29 @@
                 >
                 <img v-bind:src="'images/' + planet.icon"/>
             </div>
+            <div v-bind:style="{
+                 position: 'absolute', 
+                 left: getButtonPanelLeft(), 
+                 top: getButtonPanelTop(),
+                 width: '50px',
+                 height: '100px',
+                 }"
+                 >
+                 <button class="btn btn-primary" style="width:45px; height:45px">+</button>
+                 <button class="btn btn-primary" style="width:45px; height:45px">-</button>
+            </div>
         </div>
 
         <script>
             var app = new Vue({
                 el: '#app',
                 methods: {
+                    getButtonPanelLeft: function() {
+                        return window.innerWidth - 60;
+                    },
+                    getButtonPanelTop: function() {
+                        return window.innerHeight - 110;
+                    },
                     getOriginX: function() {
                         return window.innerWidth / 2;
                     },
