@@ -43,8 +43,14 @@
                  height: '100px',
                  }"
                  >
-                 <button class="btn btn-primary" style="width:45px; height:45px">+</button>
-                 <button class="btn btn-primary" style="width:45px; height:45px">-</button>
+                 <button 
+                     class="btn btn-primary" 
+                     style="width:45px; height:45px"
+                     v-on:click="zoomIn()">+</button>
+                 <button 
+                     class="btn btn-primary" 
+                     style="width:45px; height:45px"
+                     v-on:click="zoomOut()">-</button>
             </div>
         </div>
 
@@ -52,6 +58,15 @@
             var app = new Vue({
                 el: '#app',
                 methods: {
+                    zoomIn: function() {
+                        this.zoom += 1;
+                    },
+                    zoomOut: function() {
+                        this.zoom -= 1;
+                        if(this.zoom < 1) {
+                            this.zoom = 1;
+                        }
+                    },
                     getButtonPanelLeft: function() {
                         return window.innerWidth - 60;
                     },
